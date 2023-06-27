@@ -1,7 +1,7 @@
 import 'package:contact_list/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
-import 'controllers/helper/share_prefs.dart';
+import 'controllers/share_prefs.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

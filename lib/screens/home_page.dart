@@ -32,11 +32,13 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(
+                    width: 30,
+                  ),
                   Container(
-                    width: width * 0.8,
                     child: Text(
                       textAlign: TextAlign.left,
                       "Contatos",

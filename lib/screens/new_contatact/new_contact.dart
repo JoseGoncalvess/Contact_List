@@ -12,9 +12,38 @@ class _NewContactState extends State<NewContact> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(''),
+        title: const Text('Novo Contato'),
+        centerTitle: true,
       ),
-      body: Container(),
+      body: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Form(
+                child: Column(
+                  children: [
+                    Container(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: MediaQuery.sizeOf(context).height * 0.3,
+                      color: Colors.greenAccent,
+                    ),
+                    Text("Nome:"),
+                    TextFormField(),
+                    Text("Numero:"),
+                    TextFormField(),
+                    Text("E-mail:"),
+                    TextFormField(),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.save),
+      ),
     );
   }
 }
