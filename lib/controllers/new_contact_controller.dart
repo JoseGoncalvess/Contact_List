@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -7,8 +5,9 @@ import 'data/user_perfil.dart';
 
 class NewContactController extends ValueNotifier<XFile?> {
   NewContactController() : super(null);
+  ValueNotifier<bool> onfile = ValueNotifier<bool>(false);
 
-  getImage() async {
+  getImageFile() async {
     final ImagePicker piker = ImagePicker();
     XFile? file = await piker.pickImage(source: ImageSource.gallery);
 
@@ -17,6 +16,19 @@ class NewContactController extends ValueNotifier<XFile?> {
     } else {
       value = value;
     }
+    onfile.value = false;
+  }
+
+  getImagePhoto() async {
+    final ImagePicker piker = ImagePicker();
+    XFile? file = await piker.pickImage(source: ImageSource.camera);
+
+    if (file != null) {
+      value = file;
+    } else {
+      value = value;
+    }
+    onfile.value = false;
   }
 
   getprofile(

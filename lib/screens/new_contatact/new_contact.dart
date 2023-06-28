@@ -1,12 +1,9 @@
-import 'dart:io';
-
-import 'package:contact_list/controllers/data/user_perfil.dart';
 import 'package:contact_list/controllers/homecontroller.dart';
 import 'package:contact_list/controllers/new_contact_controller.dart';
 import 'package:contact_list/screens/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../../models/contact_model.dart';
+import '../widgets/buttom_widget.dart';
 import '../widgets/custom_profile.dart';
 import '../widgets/customfild.dart';
 
@@ -26,6 +23,15 @@ class _NewContactState extends State<NewContact> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController numberController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _newconroller.onfile.addListener(() {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.sizeOf(context).width;
@@ -68,7 +74,10 @@ class _NewContactState extends State<NewContact> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GestureDetector(
-                        onTap: () => _newconroller.getImage(),
+                        onTap: () => {
+                              _newconroller.onfile.value =
+                                  !_newconroller.onfile.value
+                            },
                         child: _newconroller.value == null
                             ? CircleAvatar(
                                 radius: width * 0.2,
@@ -114,29 +123,89 @@ class _NewContactState extends State<NewContact> {
                 ),
               ),
             ),
+            Positioned(
+              bottom: 0,
+              child: AnimatedContainer(
+                width: width,
+                height: _newconroller.onfile.value ? height * 0.24 : 0,
+                duration: const Duration(milliseconds: 600),
+                curve: Curves.easeInOut,
+                decoration: const BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(22),
+                        topRight: Radius.circular(22))),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      'Vamos escolher uma foto!',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: height * 0.02,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ButtomWidget(
+                          onfile: _newconroller.onfile.value,
+                          icon: Icons.attach_file_rounded,
+                          nameFunction: "Selecionar arquivo",
+                          onpressed: () {
+                            _newconroller.getImageFile();
+                          },
+                        ),
+                        ButtomWidget(
+                          onfile: _newconroller.onfile.value,
+                          icon: Icons.camera_alt_rounded,
+                          nameFunction: "Tira uma Foto",
+                          onpressed: () {
+                            _newconroller.getImagePhoto();
+                          },
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
-        onPressed: () {
-          _controller.savecontact(
-            contact: ContactModel(
-                name: nameController.text,
-                email: emailController.text,
-                number: numberController.text,
-                image: _newconroller.getprofile(
-                    aquivo: _newconroller.value,
-                    nameController: nameController)),
-          );
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const HomePage()));
-        },
-        child: const Icon(
-          Icons.save,
-          color: Colors.white,
-        ),
-      ),
+      floatingActionButton: _newconroller.onfile.value
+          ? Container()
+          : AnimatedContainer(
+              width: width * 0.2,
+              height: height * 0.1,
+              duration: Duration(milliseconds: 500),
+              curve: Curves.easeInBack,
+              child: FloatingActionButton(
+                backgroundColor: Colors.green,
+                onPressed: () {
+                  _controller.savecontact(
+                    contact: ContactModel(
+                        name: nameController.text,
+                        email: emailController.text,
+                        number: numberController.text,
+                        image: _newconroller.getprofile(
+                            aquivo: _newconroller.value,
+                            nameController: nameController)),
+                  );
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomePage()));
+                },
+                child: Icon(
+                  Icons.save,
+                  color: Colors.white,
+                  size: height * 0.07,
+                ),
+              ),
+            ),
     );
   }
 }
