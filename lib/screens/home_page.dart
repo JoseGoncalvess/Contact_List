@@ -1,4 +1,5 @@
 import 'package:contact_list/controllers/homecontroller.dart';
+import 'package:contact_list/models/contact_model.dart';
 
 import 'package:flutter/material.dart';
 
@@ -76,21 +77,23 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Expanded(
-              child: AnimatedBuilder(
-                animation: _controller,
-                builder: (context, child) => ListView.builder(
-                    itemCount: _controller.value.length,
-                    itemBuilder: (context, index) {
-                      var data = _controller.value;
-                      return ListTile(
-                        onLongPress: () =>
-                            _controller.deletcontatc(index: index),
-                        leading: CircleAvatar(),
-                        title: Text(data[index].name),
-                        subtitle: Text(data[index].number),
-                        trailing: Icon(Icons.call),
-                      );
-                    }),
+              child: ValueListenableBuilder(
+                valueListenable: _controller,
+                builder: (context, value, child) {
+                  return ListView.builder(
+                      itemCount: value.length,
+                      itemBuilder: (context, index) {
+                        var data = value;
+                        return ListTile(
+                          onLongPress: () =>
+                              _controller.deletcontatc(index: index),
+                          leading: CircleAvatar(),
+                          title: Text(data[index].name),
+                          subtitle: Text(data[index].number),
+                          trailing: Icon(Icons.call),
+                        );
+                      });
+                },
               ),
             )
           ],
@@ -98,7 +101,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const NewContact(),

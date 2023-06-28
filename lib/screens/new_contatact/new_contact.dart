@@ -1,8 +1,6 @@
-import 'dart:developer';
-
+import 'package:contact_list/controllers/homecontroller.dart';
+import 'package:contact_list/screens/home_page.dart';
 import 'package:flutter/material.dart';
-
-import '../../controllers/share_prefs.dart';
 import '../../models/contact_model.dart';
 import '../widgets/customfild.dart';
 
@@ -14,6 +12,8 @@ class NewContact extends StatefulWidget {
 }
 
 class _NewContactState extends State<NewContact> {
+  final _controller = Homecontroller();
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController numberController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -75,11 +75,11 @@ class _NewContactState extends State<NewContact> {
                       label: "Nome",
                     ),
                     Customfild(
-                      controller: nameController,
+                      controller: numberController,
                       label: "Numero",
                     ),
                     Customfild(
-                      controller: nameController,
+                      controller: emailController,
                       label: "E-mail",
                     ),
                   ],
@@ -91,15 +91,15 @@ class _NewContactState extends State<NewContact> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          SharePrefs().saveEvento(
-            key: keylist,
-            contato: ContactModel(
+          _controller.savecontact(
+            contact: ContactModel(
                 name: nameController.text,
                 email: emailController.text,
                 number: numberController.text,
                 image: ''),
           );
-          Navigator.pop(context);
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const HomePage()));
         },
         child: Icon(Icons.save),
       ),

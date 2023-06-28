@@ -26,7 +26,7 @@ class SharePrefs {
     prefs.remove(key);
   }
 
-  saveEvento({
+  Future saveContact({
     required String key,
     required ContactModel contato,
   }) async {
