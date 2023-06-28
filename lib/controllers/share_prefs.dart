@@ -1,24 +1,64 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:contact_list/models/contact_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharePrefs {
-  late final SharedPreferences _prefs;
   final String _keylist = "@ContactList";
   final String _keyFavorList = "@ContactFavor";
 
-  late List<ContactModel> contatos;
+  // late List<ContactModel> contatos = [];
+  late List<String> contatosString = [];
 
-  Future<SharedPreferences> get init async {
-    return _prefs = await SharedPreferences.getInstance();
+  savelist({required String key, required List<String> listString}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList(key, listString);
   }
 
-  savelist(String key, List<String> listcontatct) {
-    prefs.setStringList(key, listcontatct);
+  Future<List<String>> loadList(String key) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(key) ?? [];
   }
 
-  Future<List<String>?> loadList(String key) async {
-    return prefs.getStringList(key);
+  removelist(String key) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(key);
+  }
+
+  saveEvento({
+    required String key,
+    required ContactModel contato,
+  }) async {
+    loadList(key).then((value) => {
+          contatosString = value,
+          contatosString.add(contato.toJson()),
+          savelist(key: key, listString: contatosString)
+        });
+  }
+
+  Future<List<ContactModel>> loadContact({
+    required String key,
+  }) async {
+    List<ContactModel> contatos = [];
+    contatosString = await loadList(key);
+    for (var e in contatosString) {
+      var json = jsonDecode(e);
+      var contact = ContactModel.fromMap(json);
+      contatos.add(contact);
+    }
+    return contatos;
+  }
+
+  Future deletcontatct({required String key, required int index}) async {
+    loadList(key).then((value) => {
+          contatosString = value,
+          contatosString.removeAt(index),
+          savelist(key: key, listString: contatosString)
+        });
   }
 }
 
-SharedPreferences get prefs => SharePrefs()._prefs;
+// SharedPreferences get prefs => SharePrefs()._prefs;
+String get keylist => SharePrefs()._keylist;
+String get keyFavorList => SharePrefs()._keyFavorList;

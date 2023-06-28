@@ -1,3 +1,5 @@
+import 'package:contact_list/controllers/homecontroller.dart';
+
 import 'package:flutter/material.dart';
 
 import 'new_contatact/new_contact.dart';
@@ -10,7 +12,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _controller = Homecontroller();
+
   @override
+  void initState() {
+    super.initState();
+    _controller.getcontacts();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.sizeOf(context).width;
@@ -49,7 +64,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _controller.getcontacts();
+                      },
                       icon: Icon(
                         Icons.menu_rounded,
                         size: width * 0.08,
@@ -59,16 +76,21 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Expanded(
-              child: Container(
-                child: ListView.builder(
-                  itemCount: 3,
-                  itemBuilder: (context, index) => const ListTile(
-                    leading: CircleAvatar(),
-                    title: Text('NameConstact'),
-                    subtitle: Text('(87)9 - 91650328'),
-                    trailing: Icon(Icons.call),
-                  ),
-                ),
+              child: AnimatedBuilder(
+                animation: _controller,
+                builder: (context, child) => ListView.builder(
+                    itemCount: _controller.value.length,
+                    itemBuilder: (context, index) {
+                      var data = _controller.value;
+                      return ListTile(
+                        onLongPress: () =>
+                            _controller.deletcontatc(index: index),
+                        leading: CircleAvatar(),
+                        title: Text(data[index].name),
+                        subtitle: Text(data[index].number),
+                        trailing: Icon(Icons.call),
+                      );
+                    }),
               ),
             )
           ],
