@@ -1,3 +1,4 @@
+import 'package:contact_list/controllers/data/user_perfil.dart';
 import 'package:contact_list/controllers/homecontroller.dart';
 import 'package:contact_list/screens/home_page.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,8 @@ class NewContact extends StatefulWidget {
 class _NewContactState extends State<NewContact> {
   final _controller = Homecontroller();
 
+  ValueNotifier<String> title = ValueNotifier<String>('Novo Contato');
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController numberController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -24,8 +27,18 @@ class _NewContactState extends State<NewContact> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const HomePage()));
+            },
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.white,
+              size: width * 0.1,
+            )),
         title: Text(
-          'Novo Contato',
+          title.value,
           style: TextStyle(
               fontSize: height * 0.026,
               fontWeight: FontWeight.w700,
@@ -90,18 +103,22 @@ class _NewContactState extends State<NewContact> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
         onPressed: () {
           _controller.savecontact(
             contact: ContactModel(
                 name: nameController.text,
                 email: emailController.text,
                 number: numberController.text,
-                image: ''),
+                image: UserPerfil().getNameUser(name: nameController.text)),
           );
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const HomePage()));
         },
-        child: Icon(Icons.save),
+        child: const Icon(
+          Icons.save,
+          color: Colors.white,
+        ),
       ),
     );
   }

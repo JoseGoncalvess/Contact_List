@@ -1,8 +1,6 @@
 import 'package:contact_list/controllers/homecontroller.dart';
-import 'package:contact_list/models/contact_model.dart';
-
 import 'package:flutter/material.dart';
-
+import '../controllers/data/user_perfil.dart';
 import 'new_contatact/new_contact.dart';
 
 class HomePage extends StatefulWidget {
@@ -51,22 +49,20 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
-                  Container(
-                    child: Text(
-                      textAlign: TextAlign.left,
-                      "Contatos",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: width * 0.07,
-                          fontWeight: FontWeight.bold),
-                    ),
+                  Text(
+                    // textAlign: TextAlign.end,
+                    "Contatos",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: width * 0.07,
+                        fontWeight: FontWeight.bold),
                   ),
                   IconButton(
                       onPressed: () {
-                        _controller.getcontacts();
+                        UserPerfil().getNameUser(name: 'jose');
                       },
                       icon: Icon(
                         Icons.menu_rounded,
@@ -87,10 +83,12 @@ class _HomePageState extends State<HomePage> {
                         return ListTile(
                           onLongPress: () =>
                               _controller.deletcontatc(index: index),
-                          leading: CircleAvatar(),
+                          leading: CircleAvatar(
+                            child: Text(data[index].image),
+                          ),
                           title: Text(data[index].name),
                           subtitle: Text(data[index].number),
-                          trailing: Icon(Icons.call),
+                          trailing: const Icon(Icons.call),
                         );
                       });
                 },
@@ -100,6 +98,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.green,
           onPressed: () {
             Navigator.pushReplacement(
                 context,
@@ -107,7 +106,10 @@ class _HomePageState extends State<HomePage> {
                   builder: (context) => const NewContact(),
                 ));
           },
-          child: Icon(Icons.add_call)),
+          child: const Icon(
+            Icons.add_call,
+            color: Colors.white,
+          )),
     );
   }
 }
