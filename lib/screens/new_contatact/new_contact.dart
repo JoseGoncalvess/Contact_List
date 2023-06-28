@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:contact_list/controllers/data/user_perfil.dart';
 import 'package:contact_list/controllers/homecontroller.dart';
+import 'package:contact_list/controllers/new_contact_controller.dart';
 import 'package:contact_list/screens/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../models/contact_model.dart';
+import '../widgets/custom_profile.dart';
 import '../widgets/customfild.dart';
 
 class NewContact extends StatefulWidget {
@@ -14,6 +19,7 @@ class NewContact extends StatefulWidget {
 
 class _NewContactState extends State<NewContact> {
   final _controller = Homecontroller();
+  final _newconroller = NewContactController();
 
   ValueNotifier<String> title = ValueNotifier<String>('Novo Contato');
 
@@ -61,9 +67,18 @@ class _NewContactState extends State<NewContact> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    CircleAvatar(
-                      radius: height * 0.1,
-                    )
+                    GestureDetector(
+                        onTap: () => _newconroller.getImage(),
+                        child: _newconroller.value == null
+                            ? CircleAvatar(
+                                radius: width * 0.2,
+                                backgroundImage: AssetImage("assets/user.png"),
+                              )
+                            : CustomProfile(
+                                arquivo: _newconroller.value!,
+                              )
+                        // : CustomProfile(arquivo: _newconroller.value),
+                        )
                   ],
                 ),
               ),
@@ -110,7 +125,9 @@ class _NewContactState extends State<NewContact> {
                 name: nameController.text,
                 email: emailController.text,
                 number: numberController.text,
-                image: UserPerfil().getNameUser(name: nameController.text)),
+                image: _newconroller.getprofile(
+                    aquivo: _newconroller.value,
+                    nameController: nameController)),
           );
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const HomePage()));

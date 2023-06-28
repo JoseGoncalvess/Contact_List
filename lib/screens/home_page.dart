@@ -1,6 +1,7 @@
+import 'dart:io';
+
 import 'package:contact_list/controllers/homecontroller.dart';
 import 'package:flutter/material.dart';
-import '../controllers/data/user_perfil.dart';
 import 'new_contatact/new_contact.dart';
 
 class HomePage extends StatefulWidget {
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   IconButton(
                       onPressed: () {
-                        UserPerfil().getNameUser(name: 'jose');
+                        // NewContactController().getImage();
                       },
                       icon: Icon(
                         Icons.menu_rounded,
@@ -84,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                           onLongPress: () =>
                               _controller.deletcontatc(index: index),
                           leading: CircleAvatar(
-                            child: Text(data[index].image),
+                            backgroundImage: FileImage(File(data[index].image)),
                           ),
                           title: Text(data[index].name),
                           subtitle: Text(data[index].number),
