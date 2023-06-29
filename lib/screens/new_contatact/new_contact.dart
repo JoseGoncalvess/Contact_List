@@ -178,7 +178,7 @@ class _NewContactState extends State<NewContact> {
           : AnimatedContainer(
               width: width * 0.17,
               height: height * 0.08,
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               curve: Curves.easeInBack,
               child: FloatingActionButton(
                 backgroundColor: Colors.green,

@@ -35,7 +35,7 @@ class ButtomWidget extends StatelessWidget {
                 )),
             Text(
               nameFunction,
-              style: TextStyle(color: Colors.green),
+              style: const TextStyle(color: Colors.green),
             )
           ],
         ),

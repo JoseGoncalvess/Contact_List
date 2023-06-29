@@ -190,7 +190,7 @@ class _EditingContactState extends State<EditingContact> {
           : AnimatedContainer(
               width: width * 0.17,
               height: height * 0.08,
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               curve: Curves.easeInBack,
               child: FloatingActionButton(
                 backgroundColor: Colors.green,
@@ -203,9 +203,7 @@ class _EditingContactState extends State<EditingContact> {
                       email: _emailController.text,
                       number: _numberController.text,
                       image: _newconroller.getprofile(
-                          aquivo: _newconroller.value == null
-                              ? widget.image
-                              : _newconroller.value,
+                          aquivo: _newconroller.value ?? widget.image,
                           nameController: _nameController),
                     ),
                   );
@@ -213,7 +211,7 @@ class _EditingContactState extends State<EditingContact> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomePage(),
+                        builder: (context) => const HomePage(),
                       ));
                 },
                 child: Icon(
