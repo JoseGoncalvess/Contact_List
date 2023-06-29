@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:contact_list/controllers/homecontroller.dart';
 import 'package:flutter/material.dart';
-import 'new_contatact/new_contact.dart';
+import '../new_contatact/new_contact.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
