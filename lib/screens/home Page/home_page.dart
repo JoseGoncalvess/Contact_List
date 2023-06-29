@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:contact_list/controllers/homecontroller.dart';
+import 'package:contact_list/screens/editing%20contact/editing_contact.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../new_contatact/new_contact.dart';
 
 class HomePage extends StatefulWidget {
@@ -82,8 +84,17 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         var data = value;
                         return ListTile(
-                          onLongPress: () =>
-                              _controller.deletcontatc(index: index),
+                          onLongPress: () => {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditingContact(
+                                      image: XFile(data[index].image),
+                                      name: data[index].name,
+                                      number: data[index].number,
+                                      email: data[index].email),
+                                ))
+                          },
                           leading: CircleAvatar(
                             backgroundImage: FileImage(File(data[index].image)),
                           ),

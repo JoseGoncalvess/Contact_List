@@ -1,28 +1,36 @@
-import 'package:contact_list/controllers/homecontroller.dart';
 import 'package:contact_list/controllers/new_contact_controller.dart';
 import 'package:contact_list/screens/home%20Page/home_page.dart';
 import 'package:flutter/material.dart';
-import '../../models/contact_model.dart';
+import 'package:image_picker/image_picker.dart';
+
 import '../widgets/buttom_widget.dart';
 import '../widgets/custom_profile.dart';
 import '../widgets/customfild.dart';
 
-class NewContact extends StatefulWidget {
-  const NewContact({super.key});
+class EditingContact extends StatefulWidget {
+  final String name;
+  final String number;
+  final String email;
+  final XFile image;
+  const EditingContact(
+      {super.key,
+      required this.name,
+      required this.number,
+      required this.email,
+      required this.image});
 
   @override
-  State<NewContact> createState() => _NewContactState();
+  State<EditingContact> createState() => _EditingContactState();
 }
 
-class _NewContactState extends State<NewContact> {
-  final _controller = Homecontroller();
+class _EditingContactState extends State<EditingContact> {
   final _newconroller = NewContactController();
 
-  ValueNotifier<String> title = ValueNotifier<String>('Novo Contato');
+  ValueNotifier<String> title = ValueNotifier<String>('');
 
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController numberController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _numberController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   void initState() {
@@ -77,15 +85,11 @@ class _NewContactState extends State<NewContact> {
                                 _newconroller.onfile.value =
                                     !_newconroller.onfile.value
                               },
-                          child: _newconroller.value == null
-                              ? CircleAvatar(
-                                  radius: width * 0.2,
-                                  backgroundImage:
-                                      const AssetImage("assets/user.png"),
-                                )
-                              : CustomProfile(
-                                  arquivo: _newconroller.value!,
-                                )),
+                          child: CustomProfile(
+                            arquivo: _newconroller.value == null
+                                ? widget.image
+                                : _newconroller.value!,
+                          )),
                     ),
                     Container(
                       width: width,
@@ -102,17 +106,17 @@ class _NewContactState extends State<NewContact> {
                           ),
                           Customfild(
                             prefixicons: Icons.person,
-                            controller: nameController,
+                            controller: _nameController,
                             label: "Nome",
                           ),
                           Customfild(
                             prefixicons: Icons.phone,
-                            controller: numberController,
+                            controller: _numberController,
                             label: "Numero",
                           ),
                           Customfild(
                             prefixicons: Icons.email,
-                            controller: emailController,
+                            controller: _emailController,
                             label: "E-mail",
                           ),
                         ],
@@ -182,21 +186,7 @@ class _NewContactState extends State<NewContact> {
               curve: Curves.easeInBack,
               child: FloatingActionButton(
                 backgroundColor: Colors.green,
-                onPressed: () {
-                  _controller.savecontact(
-                    contact: ContactModel(
-                        name: nameController.text,
-                        email: emailController.text,
-                        number: numberController.text,
-                        image: _newconroller.getprofile(
-                            aquivo: _newconroller.value,
-                            nameController: nameController)),
-                  );
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomePage()));
-                },
+                onPressed: () {},
                 child: Icon(
                   Icons.save,
                   color: Colors.white,
