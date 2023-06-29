@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:contact_list/controllers/new_contact_controller.dart';
 import 'package:contact_list/screens/home%20Page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../controllers/editing_contact_controller.dart';
 import '../widgets/buttom_widget.dart';
 import '../widgets/custom_profile.dart';
 import '../widgets/customfild.dart';
@@ -25,12 +28,12 @@ class EditingContact extends StatefulWidget {
 
 class _EditingContactState extends State<EditingContact> {
   final _newconroller = NewContactController();
+  final _editingController = EditingContactController();
 
   ValueNotifier<String> title = ValueNotifier<String>('');
-
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _numberController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  late TextEditingController _nameController;
+  late TextEditingController _numberController;
+  late TextEditingController _emailController;
 
   @override
   void initState() {
@@ -38,12 +41,16 @@ class _EditingContactState extends State<EditingContact> {
     _newconroller.onfile.addListener(() {
       setState(() {});
     });
+    _nameController = TextEditingController(text: widget.name);
+    _numberController = TextEditingController(text: widget.number);
+    _emailController = TextEditingController(text: widget.email);
   }
 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.sizeOf(context).width;
     var height = MediaQuery.sizeOf(context).height;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,

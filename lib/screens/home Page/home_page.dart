@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                         var data = value;
                         return ListTile(
                           onLongPress: () => {
-                            Navigator.pushReplacement(
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => EditingContact(
