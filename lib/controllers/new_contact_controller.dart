@@ -37,7 +37,7 @@ class NewContactController extends ValueNotifier<XFile?> {
     if (aquivo == null) {
       image = UserPerfil().getNameUser(name: nameController.text);
     } else {
-      image = value!.path;
+      image = aquivo.path;
     }
 
     return image;

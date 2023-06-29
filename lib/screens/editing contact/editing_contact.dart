@@ -1,11 +1,10 @@
-import 'dart:developer';
-
 import 'package:contact_list/controllers/new_contact_controller.dart';
+import 'package:contact_list/controllers/share_prefs.dart';
 import 'package:contact_list/screens/home%20Page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../controllers/editing_contact_controller.dart';
+import '../../models/contact_model.dart';
 import '../widgets/buttom_widget.dart';
 import '../widgets/custom_profile.dart';
 import '../widgets/customfild.dart';
@@ -14,13 +13,15 @@ class EditingContact extends StatefulWidget {
   final String name;
   final String number;
   final String email;
-  final XFile image;
+  final XFile? image;
+  final int index;
   const EditingContact(
       {super.key,
       required this.name,
       required this.number,
       required this.email,
-      required this.image});
+      required this.image,
+      required this.index});
 
   @override
   State<EditingContact> createState() => _EditingContactState();
@@ -94,7 +95,7 @@ class _EditingContactState extends State<EditingContact> {
                               },
                           child: CustomProfile(
                             arquivo: _newconroller.value == null
-                                ? widget.image
+                                ? widget.image!
                                 : _newconroller.value!,
                           )),
                     ),
@@ -193,7 +194,28 @@ class _EditingContactState extends State<EditingContact> {
               curve: Curves.easeInBack,
               child: FloatingActionButton(
                 backgroundColor: Colors.green,
-                onPressed: () {},
+                onPressed: () {
+                  _editingController.editingContact(
+                    key: keylist,
+                    index: widget.index,
+                    contact: ContactModel(
+                      name: _nameController.text,
+                      email: _emailController.text,
+                      number: _numberController.text,
+                      image: _newconroller.getprofile(
+                          aquivo: _newconroller.value == null
+                              ? widget.image
+                              : _newconroller.value,
+                          nameController: _nameController),
+                    ),
+                  );
+
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ));
+                },
                 child: Icon(
                   Icons.save,
                   color: Colors.white,

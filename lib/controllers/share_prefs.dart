@@ -50,6 +50,18 @@ class SharePrefs {
     return contatos;
   }
 
+  Future editingContact(
+      {required String key,
+      required int index,
+      required ContactModel contact}) async {
+    loadList(key).then((value) => {
+          contatosString = value,
+          contatosString.removeAt(index),
+          contatosString.insert(index, contact.toJson()),
+          savelist(key: key, listString: contatosString)
+        });
+  }
+
   Future deletcontatct({required String key, required int index}) async {
     loadList(key).then((value) => {
           contatosString = value,
