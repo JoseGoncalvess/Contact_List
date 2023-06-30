@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:contact_list/controllers/data/validator_mixin.dart';
 import 'package:contact_list/controllers/homecontroller.dart';
 import 'package:contact_list/controllers/new_contact_controller.dart';

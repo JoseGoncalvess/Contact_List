@@ -21,13 +21,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _controller.drop.addListener(() {
+      setState(() {});
+    });
     _controller.getcontacts();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
   }
 
   @override
@@ -38,82 +35,159 @@ class _HomePageState extends State<HomePage> {
       body: SizedBox(
         width: width,
         height: height,
-        child: Column(
+        child: Stack(
           children: [
-            const AppCustomBar(),
-            Expanded(
-              child: ValueListenableBuilder(
-                valueListenable: _controller,
-                builder: (context, value, child) {
-                  return ListView.builder(
-                      itemCount: value.length,
-                      itemBuilder: (context, index) {
-                        var data = value;
-                        return Dismissible(
-                          key: Key(index.toString()),
-                          direction: DismissDirection.endToStart,
-                          confirmDismiss: (direction) async {
-                            return await ShowDailog().showdailogg(
-                                context: context,
-                                contact: data[index].name,
-                                page: MaterialPageRoute(
-                                  builder: (context) => EditingContact(
-                                      index: index,
-                                      image: XFile(data[index].image),
-                                      name: data[index].name,
-                                      number: data[index].number,
-                                      email: data[index].email),
+            Column(
+              children: [
+                AppCustomBar(
+                  onpressd: () =>
+                      _controller.drop.value = !_controller.drop.value,
+                ),
+                Expanded(
+                  child: ValueListenableBuilder(
+                    valueListenable: _controller,
+                    builder: (context, value, child) {
+                      return ListView.builder(
+                          itemCount: value.length,
+                          itemBuilder: (context, index) {
+                            var data = value;
+                            return Dismissible(
+                              key: Key(index.toString()),
+                              direction: DismissDirection.endToStart,
+                              confirmDismiss: (direction) async {
+                                return await ShowDailog().showdailogg(
+                                    context: context,
+                                    contact: data[index].name,
+                                    page: MaterialPageRoute(
+                                      builder: (context) => EditingContact(
+                                          index: index,
+                                          image: XFile(data[index].image),
+                                          name: data[index].name,
+                                          number: data[index].number,
+                                          email: data[index].email),
+                                    ),
+                                    delet: () {
+                                      _controller.deletcontatc(index: index);
+                                    });
+                              },
+                              background: Container(
+                                width: 100,
+                                height: 100,
+                                alignment: Alignment.centerRight,
+                                color: Colors.green[900],
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.perm_contact_calendar_rounded,
+                                    color: Colors.white,
+                                    size: width * 0.1,
+                                  ),
                                 ),
-                                delet: () {
-                                  _controller.deletcontatc(index: index);
-                                });
-                          },
-                          background: Container(
-                            width: 100,
-                            height: 100,
-                            alignment: Alignment.centerRight,
-                            color: Colors.green[900],
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.perm_contact_calendar_rounded,
+                              ),
+                              onDismissed: (direction) =>
+                                  _controller.deletcontatc(index: index),
+                              child: ListTile(
+                                leading: data[index].image.length == 2
+                                    ? CircleAvatar(
+                                        radius: 30,
+                                        child: Text(data[index].image))
+                                    : CircleAvatar(
+                                        radius: 30,
+                                        backgroundImage: FileImage(
+                                          File(data[index].image),
+                                          scale: 2,
+                                        ),
+                                      ),
+                                title: Text(
+                                  data[index].name,
+                                  style: TextStyle(
+                                      color: Colors.green[800],
+                                      fontSize: height * 0.022,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Text(data[index].number,
+                                    style: TextStyle(
+                                        color: Colors.grey[400],
+                                        fontSize: height * 0.022,
+                                        fontWeight: FontWeight.w400)),
+                                visualDensity:
+                                    VisualDensity.adaptivePlatformDensity,
+                                dense: true,
+                                focusColor: Colors.greenAccent,
+                                trailing: const Icon(Icons.call),
+                              ),
+                            );
+                          });
+                    },
+                  ),
+                )
+              ],
+            ),
+            Positioned(
+                top: 100,
+                right: _controller.drop.value ? 0 : -200,
+                child: AnimatedContainer(
+                  width: _controller.drop.value ? width * 0.45 : 0,
+                  height: _controller.drop.value ? height * 0.15 : 0,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.decelerate,
+                  decoration: BoxDecoration(
+                      color: Colors.green[900],
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(22),
+                          bottomLeft: Radius.circular(22))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                          onTap: () => {},
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(
+                                Icons.favorite,
                                 color: Colors.white,
-                                size: width * 0.1,
                               ),
-                            ),
-                          ),
-                          onDismissed: (direction) =>
-                              _controller.deletcontatc(index: index),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              radius: 30,
-                              onBackgroundImageError: (exception, stackTrace) =>
-                                  Image.asset('assets/user.png'),
-                              backgroundImage: FileImage(
-                                File(data[index].image),
-                                scale: 2,
-                              ),
-                            ),
-                            title: Text(
-                              data[index].name,
-                              style: TextStyle(
-                                  color: Colors.green[800],
-                                  fontSize: height * 0.022,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text(data[index].number,
+                              Text(
+                                'Favoritos',
                                 style: TextStyle(
-                                    color: Colors.grey[400],
-                                    fontSize: height * 0.022,
-                                    fontWeight: FontWeight.w400)),
-                            focusColor: Colors.greenAccent,
-                            trailing: const Icon(Icons.call),
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: _controller.drop.value
+                                        ? height * 0.025
+                                        : 0),
+                              )
+                            ],
+                          )),
+                      SizedBox(
+                        child: GestureDetector(
+                          onTap: () => _controller.getcontacts(),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Icon(
+                                Icons.contacts_rounded,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                'Geral',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: _controller.drop.value
+                                        ? height * 0.025
+                                        : 0),
+                              )
+                            ],
                           ),
-                        );
-                      });
-                },
-              ),
-            )
+                        ),
+                      )
+                    ],
+                  ),
+                ))
           ],
         ),
       ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppCustomBar extends StatefulWidget {
-  const AppCustomBar({super.key});
+  final Function() onpressd;
+  const AppCustomBar({super.key, required this.onpressd});
 
   @override
   State<AppCustomBar> createState() => _AppCustomBarState();
@@ -39,9 +40,7 @@ class _AppCustomBarState extends State<AppCustomBar> {
                 fontWeight: FontWeight.bold),
           ),
           IconButton(
-              onPressed: () {
-                // NewContactController().getImage();
-              },
+              onPressed: widget.onpressd,
               icon: Icon(
                 Icons.menu_rounded,
                 size: width * 0.08,

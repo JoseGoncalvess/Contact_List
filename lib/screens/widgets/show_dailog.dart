@@ -36,7 +36,7 @@ class ShowDailog {
                 children: [Icon(Icons.edit_outlined), Text('Editar')],
               )),
           ElevatedButton(
-              onPressed: () => {Navigator.pop(context, true), delet},
+              onPressed: () => Navigator.pop(context, true),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Icon(Icons.delete_forever), Text('Excluir')],

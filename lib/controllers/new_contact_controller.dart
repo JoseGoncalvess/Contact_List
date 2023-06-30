@@ -35,7 +35,7 @@ class NewContactController extends ValueNotifier<XFile?> {
       {required TextEditingController nameController, required XFile? aquivo}) {
     String image = '';
     if (aquivo == null) {
-      image = UserPerfil().getNameUser(name: nameController.text);
+      image = UserPerfil().getNameUser(name: nameController.text.toUpperCase());
     } else {
       image = aquivo.path;
     }
