@@ -4,7 +4,7 @@ class ShowDailog {
   Future showdailogg({
     required BuildContext context,
     required String contact,
-    required Function editing,
+    required PageRoute page,
     required Function delet,
   }) {
     var height = MediaQuery.sizeOf(context).height;
@@ -28,7 +28,9 @@ class ShowDailog {
         backgroundColor: Colors.green,
         actions: [
           ElevatedButton(
-              onPressed: () => {Navigator.pop(context, false), editing},
+              onPressed: () {
+                Navigator.pushReplacement(context, page) == false;
+              },
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Icon(Icons.edit_outlined), Text('Editar')],

@@ -56,18 +56,14 @@ class _HomePageState extends State<HomePage> {
                             return await ShowDailog().showdailogg(
                                 context: context,
                                 contact: data[index].name,
-                                editing: () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => EditingContact(
-                                            index: index,
-                                            image: XFile(data[index].image),
-                                            name: data[index].name,
-                                            number: data[index].number,
-                                            email: data[index].email),
-                                      ));
-                                },
+                                page: MaterialPageRoute(
+                                  builder: (context) => EditingContact(
+                                      index: index,
+                                      image: XFile(data[index].image),
+                                      name: data[index].name,
+                                      number: data[index].number,
+                                      email: data[index].email),
+                                ),
                                 delet: () {
                                   _controller.deletcontatc(index: index);
                                 });

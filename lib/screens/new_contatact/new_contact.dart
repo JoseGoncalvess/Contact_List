@@ -233,24 +233,20 @@ class _NewContactState extends State<NewContact> with ValidatorMixin {
                 backgroundColor: Colors.green,
                 onPressed: () {
                   if (_KeyState.currentState!.validate()) {
-                    return log('message');
+                    _controller.savecontact(
+                      contact: ContactModel(
+                          name: nameController.text,
+                          email: emailController.text,
+                          number: numberController.text,
+                          image: _newconroller.getprofile(
+                              aquivo: _newconroller.value,
+                              nameController: nameController)),
+                    );
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()));
                   }
-                  {
-                    return log("deumerda");
-                  }
-                  // _controller.savecontact(
-                  //   contact: ContactModel(
-                  //       name: nameController.text,
-                  //       email: emailController.text,
-                  //       number: numberController.text,
-                  //       image: _newconroller.getprofile(
-                  //           aquivo: _newconroller.value,
-                  //           nameController: nameController)),
-                  // );
-                  // Navigator.pushReplacement(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => const HomePage()));
                 },
                 child: Icon(
                   Icons.save,
