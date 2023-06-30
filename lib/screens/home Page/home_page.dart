@@ -83,25 +83,94 @@ class _HomePageState extends State<HomePage> {
                       itemCount: value.length,
                       itemBuilder: (context, index) {
                         var data = value;
-                        return ListTile(
-                          onLongPress: () => {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EditingContact(
-                                      index: index,
-                                      image: XFile(data[index].image),
-                                      name: data[index].name,
-                                      number: data[index].number,
-                                      email: data[index].email),
-                                ))
-                          },
-                          leading: CircleAvatar(
-                            backgroundImage: FileImage(File(data[index].image)),
+                        return Dismissible(
+                          key: Key(index.toString()),
+                          direction: DismissDirection.endToStart,
+                          confirmDismiss: (direction) => showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text(
+                                '${data[index].name}',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              content: Text(
+                                'O que deseja fazer:',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: height * 0.03,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              backgroundColor: Colors.green,
+                              actions: [
+                                ElevatedButton(
+                                    onPressed: () => {
+                                          Navigator.pop(context, false),
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EditingContact(
+                                                        index: index,
+                                                        image:
+                                                            XFile(data[index]
+                                                                .image),
+                                                        name: data[index].name,
+                                                        number:
+                                                            data[index].number,
+                                                        email:
+                                                            data[index].email),
+                                              ))
+                                        },
+                                    child: const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.edit_outlined),
+                                        Text('Editar')
+                                      ],
+                                    )),
+                                ElevatedButton(
+                                    onPressed: () => {
+                                          Navigator.pop(context, true),
+                                          _controller.deletcontatc(index: index)
+                                        },
+                                    child: const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.delete_forever),
+                                        Text('Excluir')
+                                      ],
+                                    )),
+                                ElevatedButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, false),
+                                    child: const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.close_rounded),
+                                        Text('Cancelar')
+                                      ],
+                                    ))
+                              ],
+                            ),
                           ),
-                          title: Text(data[index].name),
-                          subtitle: Text(data[index].number),
-                          trailing: const Icon(Icons.call),
+                          onDismissed: (direction) =>
+                              _controller.deletcontatc(index: index),
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  FileImage(File(data[index].image)),
+                            ),
+                            title: Text(data[index].name),
+                            subtitle: Text(data[index].number),
+                            trailing: const Icon(Icons.call),
+                          ),
                         );
                       });
                 },
