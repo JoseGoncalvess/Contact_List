@@ -113,16 +113,22 @@ class _EditingContactState extends State<EditingContact> {
                             height: height * 0.08,
                           ),
                           Customfild(
+                            typekeybord: TextInputType.name,
+                            validator: null,
                             prefixicons: Icons.person,
                             controller: _nameController,
                             label: "Nome",
                           ),
                           Customfild(
+                            typekeybord: TextInputType.phone,
+                            validator: null,
                             prefixicons: Icons.phone,
                             controller: _numberController,
                             label: "Numero",
                           ),
                           Customfild(
+                            typekeybord: TextInputType.emailAddress,
+                            validator: null,
                             prefixicons: Icons.email,
                             controller: _emailController,
                             label: "E-mail",

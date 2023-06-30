@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:contact_list/controllers/data/validator_mixin.dart';
 import 'package:contact_list/controllers/homecontroller.dart';
 import 'package:contact_list/controllers/new_contact_controller.dart';
 import 'package:contact_list/screens/home%20Page/home_page.dart';
@@ -14,9 +17,10 @@ class NewContact extends StatefulWidget {
   State<NewContact> createState() => _NewContactState();
 }
 
-class _NewContactState extends State<NewContact> {
+class _NewContactState extends State<NewContact> with ValidatorMixin {
   final _controller = Homecontroller();
   final _newconroller = NewContactController();
+  final GlobalKey<FormState> _KeyState = GlobalKey<FormState>();
 
   ValueNotifier<String> title = ValueNotifier<String>('Novo Contato');
 
@@ -30,6 +34,13 @@ class _NewContactState extends State<NewContact> {
     _newconroller.onfile.addListener(() {
       setState(() {});
     });
+  }
+
+  String? teste({required String value}) {
+    if (value.isEmpty) {
+      return 'verifique o nome';
+    }
+    return null;
   }
 
   @override
@@ -95,27 +106,65 @@ class _NewContactState extends State<NewContact> {
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(50),
                               topRight: Radius.circular(50))),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: height * 0.08,
-                          ),
-                          Customfild(
-                            prefixicons: Icons.person,
-                            controller: nameController,
-                            label: "Nome",
-                          ),
-                          Customfild(
-                            prefixicons: Icons.phone,
-                            controller: numberController,
-                            label: "Numero",
-                          ),
-                          Customfild(
-                            prefixicons: Icons.email,
-                            controller: emailController,
-                            label: "E-mail",
-                          ),
-                        ],
+                      child: Form(
+                        onChanged: () => _KeyState.currentState!.validate(),
+                        key: _KeyState,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: height * 0.08,
+                            ),
+                            Customfild(
+                              validator: (value) => combvalidator(validator: [
+                                () => isempyt(
+                                    value: value,
+                                    msg: 'Por favor não deixe o campo Vazio!'),
+                                () => isContainNuber(
+                                    value: value,
+                                    msg: 'Ultilize apenas Letras'),
+                                () => iseminLenth(
+                                    lenth: 3,
+                                    msg: 'Digite u nome maior',
+                                    value: value)
+                              ]),
+                              typekeybord: TextInputType.name,
+                              prefixicons: Icons.person,
+                              controller: nameController,
+                              label: "Nome",
+                            ),
+                            Customfild(
+                              typekeybord: TextInputType.phone,
+                              validator: (value) => combvalidator(validator: [
+                                () => isempyt(
+                                    value: value,
+                                    msg: 'Por favor não deixe o campo Vazio!'),
+                                () => isContaintext(
+                                    value: value,
+                                    msg: 'Ultilize apenas numeros!'),
+                                () => isnumbervlidate(
+                                    msg:
+                                        'Digite um numero valido(xx) x - xxxx-xxxx',
+                                    value: value)
+                              ]),
+                              prefixicons: Icons.phone,
+                              controller: numberController,
+                              label: "Numero",
+                            ),
+                            Customfild(
+                              validator: (value) => combvalidator(validator: [
+                                () => isempyt(
+                                    value: value,
+                                    msg: 'Por favor não deixe o campo Vazio!'),
+                                () => isEmailvalidate(
+                                    msg: 'Ensire um email valido', value: value)
+                              ]),
+                              typekeybord: TextInputType.emailAddress,
+                              prefixicons: Icons.email,
+                              controller: emailController,
+                              label: "E-mail",
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -183,19 +232,25 @@ class _NewContactState extends State<NewContact> {
               child: FloatingActionButton(
                 backgroundColor: Colors.green,
                 onPressed: () {
-                  _controller.savecontact(
-                    contact: ContactModel(
-                        name: nameController.text,
-                        email: emailController.text,
-                        number: numberController.text,
-                        image: _newconroller.getprofile(
-                            aquivo: _newconroller.value,
-                            nameController: nameController)),
-                  );
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomePage()));
+                  if (_KeyState.currentState!.validate()) {
+                    return log('message');
+                  }
+                  {
+                    return log("deumerda");
+                  }
+                  // _controller.savecontact(
+                  //   contact: ContactModel(
+                  //       name: nameController.text,
+                  //       email: emailController.text,
+                  //       number: numberController.text,
+                  //       image: _newconroller.getprofile(
+                  //           aquivo: _newconroller.value,
+                  //           nameController: nameController)),
+                  // );
+                  // Navigator.pushReplacement(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const HomePage()));
                 },
                 child: Icon(
                   Icons.save,
