@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:contact_list/controllers/homecontroller.dart';
 import 'package:contact_list/screens/editing%20contact/editing_contact.dart';
+import 'package:contact_list/screens/widgets/show_dailog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../new_contatact/new_contact.dart';
+import '../widgets/app_custom_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,43 +40,7 @@ class _HomePageState extends State<HomePage> {
         height: height,
         child: Column(
           children: [
-            Container(
-              width: width,
-              height: height * 0.12,
-              decoration: const BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  Text(
-                    // textAlign: TextAlign.end,
-                    "Contatos",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: width * 0.07,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        // NewContactController().getImage();
-                      },
-                      icon: Icon(
-                        Icons.menu_rounded,
-                        size: width * 0.08,
-                        color: Colors.white,
-                      ))
-                ],
-              ),
-            ),
+            const AppCustomBar(),
             Expanded(
               child: ValueListenableBuilder(
                 valueListenable: _controller,
@@ -86,89 +52,65 @@ class _HomePageState extends State<HomePage> {
                         return Dismissible(
                           key: Key(index.toString()),
                           direction: DismissDirection.endToStart,
-                          confirmDismiss: (direction) => showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(
-                                '${data[index].name}',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
+                          confirmDismiss: (direction) async {
+                            return await ShowDailog().showdailogg(
+                                context: context,
+                                contact: data[index].name,
+                                editing: () {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EditingContact(
+                                            index: index,
+                                            image: XFile(data[index].image),
+                                            name: data[index].name,
+                                            number: data[index].number,
+                                            email: data[index].email),
+                                      ));
+                                },
+                                delet: () {
+                                  _controller.deletcontatc(index: index);
+                                });
+                          },
+                          background: Container(
+                            width: 100,
+                            height: 100,
+                            alignment: Alignment.centerRight,
+                            color: Colors.green[900],
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.perm_contact_calendar_rounded,
+                                color: Colors.white,
+                                size: width * 0.1,
                               ),
-                              content: Text(
-                                'O que deseja fazer:',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: height * 0.03,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              backgroundColor: Colors.green,
-                              actions: [
-                                ElevatedButton(
-                                    onPressed: () => {
-                                          Navigator.pop(context, false),
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EditingContact(
-                                                        index: index,
-                                                        image:
-                                                            XFile(data[index]
-                                                                .image),
-                                                        name: data[index].name,
-                                                        number:
-                                                            data[index].number,
-                                                        email:
-                                                            data[index].email),
-                                              ))
-                                        },
-                                    child: const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.edit_outlined),
-                                        Text('Editar')
-                                      ],
-                                    )),
-                                ElevatedButton(
-                                    onPressed: () => {
-                                          Navigator.pop(context, true),
-                                          _controller.deletcontatc(index: index)
-                                        },
-                                    child: const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.delete_forever),
-                                        Text('Excluir')
-                                      ],
-                                    )),
-                                ElevatedButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, false),
-                                    child: const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.close_rounded),
-                                        Text('Cancelar')
-                                      ],
-                                    ))
-                              ],
                             ),
                           ),
                           onDismissed: (direction) =>
                               _controller.deletcontatc(index: index),
                           child: ListTile(
                             leading: CircleAvatar(
-                              backgroundImage:
-                                  FileImage(File(data[index].image)),
+                              radius: 30,
+                              onBackgroundImageError: (exception, stackTrace) =>
+                                  Image.asset('assets/user.png'),
+                              backgroundImage: FileImage(
+                                File(data[index].image),
+                                scale: 2,
+                              ),
                             ),
-                            title: Text(data[index].name),
-                            subtitle: Text(data[index].number),
+                            title: Text(
+                              data[index].name,
+                              style: TextStyle(
+                                  color: Colors.green[800],
+                                  fontSize: height * 0.022,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Text(data[index].number,
+                                style: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: height * 0.022,
+                                    fontWeight: FontWeight.w400)),
+                            focusColor: Colors.greenAccent,
                             trailing: const Icon(Icons.call),
                           ),
                         );
