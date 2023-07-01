@@ -16,7 +16,7 @@ class SharePrefs {
     prefs.setStringList(key, listString);
   }
 
-  Future<List<String>> loadList(String key) async {
+  Future<List<String>> loadList({required String key}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getStringList(key) ?? [];
   }
@@ -30,7 +30,7 @@ class SharePrefs {
     required String key,
     required ContactModel contato,
   }) async {
-    loadList(key).then((value) => {
+    loadList(key: key).then((value) => {
           contatosString = value,
           contatosString.add(contato.toJson()),
           savelist(key: key, listString: contatosString)
@@ -41,7 +41,7 @@ class SharePrefs {
     required String key,
   }) async {
     List<ContactModel> contatos = [];
-    contatosString = await loadList(key);
+    contatosString = await loadList(key: key);
     for (var e in contatosString) {
       var json = jsonDecode(e);
       var contact = ContactModel.fromMap(json);
@@ -54,20 +54,39 @@ class SharePrefs {
       {required String key,
       required int index,
       required ContactModel contact}) async {
-    loadList(key).then((value) => {
+    loadList(key: key).then((value) => {
           contatosString = value,
           contatosString.removeAt(index),
           contatosString.insert(index, contact.toJson()),
           savelist(key: key, listString: contatosString)
         });
+    loadList(key: keyFavorList).then((value) => {
+          if (value.isNotEmpty)
+            {
+              contatosString = value,
+              contatosString.removeAt(index),
+              contatosString.insert(index, contact.toJson()),
+              savelist(key: key, listString: contatosString)
+            }
+          else
+            {}
+        });
   }
 
   Future deletcontatct({required String key, required int index}) async {
-    loadList(key).then((value) => {
+    loadList(key: key).then((value) => {
           contatosString = value,
           contatosString.removeAt(index),
           savelist(key: key, listString: contatosString)
         });
+
+    loadList(key: keyFavorList).then((value) {
+      if (value.isNotEmpty) {
+        contatosString = value;
+        contatosString.removeAt(index);
+        savelist(key: keyFavorList, listString: contatosString);
+      } else {}
+    });
   }
 }
 

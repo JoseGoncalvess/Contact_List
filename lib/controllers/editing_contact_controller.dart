@@ -13,6 +13,6 @@ class EditingContactController {
       required ContactModel contact}) {
     prefs
         .editingContact(key: key, index: index, contact: contact)
-        .then((value) => {_controlle.getcontacts()});
+        .then((value) => {_controlle.getcontacts(key: keylist)});
   }
 }

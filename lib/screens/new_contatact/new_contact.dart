@@ -1,6 +1,7 @@
 import 'package:contact_list/controllers/data/validator_mixin.dart';
 import 'package:contact_list/controllers/homecontroller.dart';
 import 'package:contact_list/controllers/new_contact_controller.dart';
+import 'package:contact_list/controllers/share_prefs.dart';
 import 'package:contact_list/screens/home%20Page/home_page.dart';
 import 'package:flutter/material.dart';
 import '../../models/contact_model.dart';
@@ -232,6 +233,7 @@ class _NewContactState extends State<NewContact> with ValidatorMixin {
                 onPressed: () {
                   if (_KeyState.currentState!.validate()) {
                     _controller.savecontact(
+                      key: keylist,
                       contact: ContactModel(
                           name: nameController.text,
                           email: emailController.text,

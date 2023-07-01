@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:contact_list/controllers/homecontroller.dart';
+import 'package:contact_list/controllers/share_prefs.dart';
 import 'package:contact_list/screens/editing%20contact/editing_contact.dart';
 import 'package:contact_list/screens/widgets/show_dailog.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     _controller.drop.addListener(() {
       setState(() {});
     });
-    _controller.getcontacts();
+    _controller.getcontacts(key: keylist);
   }
 
   @override
@@ -69,6 +70,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     delet: () {
                                       _controller.deletcontatc(
+                                        key: keylist,
                                         index: index,
                                       );
                                     });
@@ -89,6 +91,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               onDismissed: (direction) =>
                                   _controller.deletcontatc(
+                                key: keylist,
                                 index: index,
                               ),
                               child: ListTile(
