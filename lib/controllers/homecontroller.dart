@@ -8,7 +8,7 @@ class Homecontroller extends ValueNotifier {
   ValueNotifier<bool> drop = ValueNotifier<bool>(false);
 
   getcontacts() {
-    SharePrefs().loadContact(key: keylist).then((v) => value = v);
+    SharePrefs().loadContact(key: keylist).then((v) => value = v ?? []);
   }
 
   deletcontatc({required int index}) {

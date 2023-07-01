@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../new_contatact/new_contact.dart';
 import '../widgets/app_custom_bar.dart';
+import '../widgets/list_contact.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -67,7 +68,9 @@ class _HomePageState extends State<HomePage> {
                                           email: data[index].email),
                                     ),
                                     delet: () {
-                                      _controller.deletcontatc(index: index);
+                                      _controller.deletcontatc(
+                                        index: index,
+                                      );
                                     });
                               },
                               background: Container(
@@ -85,7 +88,9 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               onDismissed: (direction) =>
-                                  _controller.deletcontatc(index: index),
+                                  _controller.deletcontatc(
+                                index: index,
+                              ),
                               child: ListTile(
                                 leading: data[index].image.length == 2
                                     ? CircleAvatar(
@@ -126,67 +131,10 @@ class _HomePageState extends State<HomePage> {
             Positioned(
                 top: 100,
                 right: _controller.drop.value ? 0 : -200,
-                child: AnimatedContainer(
-                  width: _controller.drop.value ? width * 0.45 : 0,
-                  height: _controller.drop.value ? height * 0.15 : 0,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.decelerate,
-                  decoration: BoxDecoration(
-                      color: Colors.green[900],
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(22),
-                          bottomLeft: Radius.circular(22))),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      GestureDetector(
-                          onTap: () => {},
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Icon(
-                                Icons.favorite,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                'Favoritos',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: _controller.drop.value
-                                        ? height * 0.025
-                                        : 0),
-                              )
-                            ],
-                          )),
-                      SizedBox(
-                        child: GestureDetector(
-                          onTap: () => _controller.getcontacts(),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              const Icon(
-                                Icons.contacts_rounded,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                'Geral',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: _controller.drop.value
-                                        ? height * 0.025
-                                        : 0),
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                child: ListContact(
+                  favorpress: () {},
+                  geralPress: () {},
+                  activi: _controller.drop.value,
                 ))
           ],
         ),
