@@ -33,13 +33,13 @@ class ShowDailog {
               },
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Icon(Icons.edit_outlined), Text('Editar')],
+                children: [Icon(Icons.edit), Text('Editar Contato')],
               )),
           ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Icon(Icons.delete_forever), Text('Excluir')],
+                children: [Icon(Icons.delete_forever), Text('Excluir Contato')],
               )),
           ElevatedButton(
               onPressed: () => Navigator.pop(context, false),

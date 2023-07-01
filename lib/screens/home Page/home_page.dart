@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:developer';
 
 import 'package:contact_list/controllers/homecontroller.dart';
 import 'package:contact_list/controllers/share_prefs.dart';
+import 'package:contact_list/models/contact_model.dart';
 import 'package:contact_list/screens/editing%20contact/editing_contact.dart';
 import 'package:contact_list/screens/widgets/show_dailog.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +97,15 @@ class _HomePageState extends State<HomePage> {
                                 index: index,
                               ),
                               child: ListTile(
+                                onLongPress: () => {
+                                  _controller.savecontact(
+                                      contact: ContactModel(
+                                          image: data[index].image,
+                                          name: data[index].name,
+                                          number: data[index].number,
+                                          email: data[index].email),
+                                      key: keyFavorList)
+                                },
                                 leading: data[index].image.length == 2
                                     ? CircleAvatar(
                                         radius: 30,
@@ -135,8 +146,8 @@ class _HomePageState extends State<HomePage> {
                 top: 100,
                 right: _controller.drop.value ? 0 : -200,
                 child: ListContact(
-                  favorpress: () {},
-                  geralPress: () {},
+                  favorpress: () => _controller.getcontacts(key: keyFavorList),
+                  geralPress: () => _controller.getcontacts(key: keylist),
                   activi: _controller.drop.value,
                 ))
           ],

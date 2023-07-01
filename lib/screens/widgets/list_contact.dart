@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ListContact extends StatefulWidget {
   final bool activi;
-  final Function favorpress;
-  final Function geralPress;
+  final Function() favorpress;
+  final Function() geralPress;
   const ListContact(
       {super.key,
       required this.activi,
@@ -33,9 +33,9 @@ class _ListContactState extends State<ListContact> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           GestureDetector(
-              onTap: () => widget.favorpress,
+              onTap: widget.favorpress,
               child: SizedBox(
-                height: height * 0.045,
+                height: height * 0.043,
                 width: width * 0.4,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,7 +56,7 @@ class _ListContactState extends State<ListContact> {
                 ),
               )),
           GestureDetector(
-            onTap: () => widget.geralPress,
+            onTap: widget.geralPress,
             child: SizedBox(
               height: height * 0.045,
               width: width * 0.4,

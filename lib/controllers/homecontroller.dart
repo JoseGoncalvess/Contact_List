@@ -8,7 +8,7 @@ class Homecontroller extends ValueNotifier {
   ValueNotifier<bool> drop = ValueNotifier<bool>(false);
 
   getcontacts({required String key}) {
-    SharePrefs().loadContact(key: key).then((v) => value = v ?? []);
+    SharePrefs().loadContact(key: key).then((v) => value = v);
   }
 
   deletcontatc({required int index, required String key}) {
@@ -19,8 +19,8 @@ class Homecontroller extends ValueNotifier {
 
   Future savecontact(
       {required ContactModel contact, required String key}) async {
-    SharePrefs().saveContact(key: keylist, contato: contact).then((value) => {
-          getcontacts(key: key),
+    SharePrefs().saveContact(key: key, contato: contact).then((value) => {
+          getcontacts(key: keylist),
         });
   }
 }

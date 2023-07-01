@@ -93,11 +93,18 @@ class _EditingContactState extends State<EditingContact> {
                                 _newconroller.onfile.value =
                                     !_newconroller.onfile.value
                               },
-                          child: CustomProfile(
-                            arquivo: _newconroller.value == null
-                                ? widget.image!
-                                : _newconroller.value!,
-                          )),
+                          child: widget.image!.path.length == 2
+                              ? CircleAvatar(
+                                  radius: 60,
+                                  child: Text(
+                                    widget.image!.path,
+                                    style: TextStyle(fontSize: height * 0.07),
+                                  ))
+                              : CustomProfile(
+                                  arquivo: _newconroller.value == null
+                                      ? widget.image!
+                                      : _newconroller.value!,
+                                )),
                     ),
                     Container(
                       width: width,
