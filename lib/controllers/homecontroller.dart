@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class Homecontroller extends ValueNotifier {
   Homecontroller() : super([]);
   ValueNotifier<bool> drop = ValueNotifier<bool>(false);
+  ValueNotifier<bool> listselect = ValueNotifier<bool>(false);
 
   getcontacts({required String key}) {
     SharePrefs().loadContact(key: key).then((v) => value = v);

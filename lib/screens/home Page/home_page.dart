@@ -28,6 +28,9 @@ class _HomePageState extends State<HomePage> {
     _controller.drop.addListener(() {
       setState(() {});
     });
+    _controller.listselect.addListener(() {
+      setState(() {});
+    });
     _controller.getcontacts(key: keylist);
   }
 
@@ -69,13 +72,7 @@ class _HomePageState extends State<HomePage> {
                                           name: data[index].name,
                                           number: data[index].number,
                                           email: data[index].email),
-                                    ),
-                                    delet: () {
-                                      _controller.deletcontatc(
-                                        key: keylist,
-                                        index: index,
-                                      );
-                                    });
+                                    ));
                               },
                               background: Container(
                                 width: 100,
@@ -93,18 +90,52 @@ class _HomePageState extends State<HomePage> {
                               ),
                               onDismissed: (direction) =>
                                   _controller.deletcontatc(
-                                key: keylist,
+                                key: _controller.listselect.value == true
+                                    ? keyFavorList
+                                    : keylist,
                                 index: index,
                               ),
                               child: ListTile(
                                 onLongPress: () => {
-                                  _controller.savecontact(
-                                      contact: ContactModel(
-                                          image: data[index].image,
-                                          name: data[index].name,
-                                          number: data[index].number,
-                                          email: data[index].email),
-                                      key: keyFavorList)
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      backgroundColor: Colors.green,
+                                      title: const Icon(
+                                        Icons.favorite,
+                                        color: Colors.white,
+                                      ),
+                                      content: Text(
+                                        textAlign: TextAlign.center,
+                                        'O contato ${data[index].name} foi adiconando aos favoritos!',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      actionsAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      actions: [
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("Cancelar")),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              _controller.savecontact(
+                                                  contact: ContactModel(
+                                                      image: data[index].image,
+                                                      name: data[index].name,
+                                                      number:
+                                                          data[index].number,
+                                                      email: data[index].email),
+                                                  key: keyFavorList);
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("Favoritar"))
+                                      ],
+                                    ),
+                                  )
                                 },
                                 leading: data[index].image.length == 2
                                     ? CircleAvatar(
@@ -146,8 +177,19 @@ class _HomePageState extends State<HomePage> {
                 top: 100,
                 right: _controller.drop.value ? 0 : -200,
                 child: ListContact(
-                  favorpress: () => _controller.getcontacts(key: keyFavorList),
-                  geralPress: () => _controller.getcontacts(key: keylist),
+                  favorpress: () {
+                    _controller.getcontacts(key: keyFavorList);
+                    _controller.drop.value = !_controller.drop.value;
+                    _controller.listselect.value = true;
+
+                    log(_controller.listselect.value.toString());
+                  },
+                  geralPress: () {
+                    _controller.getcontacts(key: keylist);
+                    _controller.drop.value = !_controller.drop.value;
+                    _controller.listselect.value = false;
+                    log(_controller.listselect.value.toString());
+                  },
                   activi: _controller.drop.value,
                 ))
           ],

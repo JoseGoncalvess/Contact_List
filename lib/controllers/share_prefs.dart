@@ -79,14 +79,6 @@ class SharePrefs {
           contatosString.removeAt(index),
           savelist(key: key, listString: contatosString)
         });
-
-    loadList(key: keyFavorList).then((value) {
-      if (value.isNotEmpty) {
-        contatosString = value;
-        contatosString.removeAt(index);
-        savelist(key: keyFavorList, listString: contatosString);
-      } else {}
-    });
   }
 }
 

@@ -5,7 +5,6 @@ class ShowDailog {
     required BuildContext context,
     required String contact,
     required PageRoute page,
-    required Function delet,
   }) {
     var height = MediaQuery.sizeOf(context).height;
     return showDialog(

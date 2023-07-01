@@ -50,7 +50,7 @@ class _ListContactState extends State<ListContact> {
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: widget.activi ? height * 0.025 : 0),
+                          fontSize: widget.activi ? height * 0.023 : 0),
                     )
                   ],
                 ),
@@ -58,7 +58,7 @@ class _ListContactState extends State<ListContact> {
           GestureDetector(
             onTap: widget.geralPress,
             child: SizedBox(
-              height: height * 0.045,
+              height: height * 0.04,
               width: width * 0.4,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,7 +73,7 @@ class _ListContactState extends State<ListContact> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: widget.activi ? height * 0.025 : 0),
+                        fontSize: widget.activi ? height * 0.023 : 0),
                   )
                 ],
               ),
