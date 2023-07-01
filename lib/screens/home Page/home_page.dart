@@ -97,45 +97,52 @@ class _HomePageState extends State<HomePage> {
                               ),
                               child: ListTile(
                                 onLongPress: () => {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      backgroundColor: Colors.green,
-                                      title: const Icon(
-                                        Icons.favorite,
-                                        color: Colors.white,
-                                      ),
-                                      content: Text(
-                                        textAlign: TextAlign.center,
-                                        'O contato ${data[index].name} foi adiconando aos favoritos!',
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      actionsAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      actions: [
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text("Cancelar")),
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              _controller.savecontact(
-                                                  contact: ContactModel(
-                                                      image: data[index].image,
-                                                      name: data[index].name,
-                                                      number:
-                                                          data[index].number,
-                                                      email: data[index].email),
-                                                  key: keyFavorList);
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text("Favoritar"))
-                                      ],
-                                    ),
-                                  )
+                                  _controller.listselect.value
+                                      ? null
+                                      : showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            backgroundColor: Colors.green,
+                                            title: const Icon(
+                                              Icons.favorite,
+                                              color: Colors.white,
+                                            ),
+                                            content: Text(
+                                              textAlign: TextAlign.center,
+                                              'O contato ${data[index].name} foi adiconando aos favoritos!',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            actionsAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            actions: [
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child:
+                                                      const Text("Cancelar")),
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    _controller.savecontact(
+                                                        contact: ContactModel(
+                                                            image: data[index]
+                                                                .image,
+                                                            name: data[index]
+                                                                .name,
+                                                            number: data[index]
+                                                                .number,
+                                                            email: data[index]
+                                                                .email),
+                                                        key: keyFavorList);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child:
+                                                      const Text("Favoritar"))
+                                            ],
+                                          ),
+                                        )
                                 },
                                 leading: data[index].image.length == 2
                                     ? CircleAvatar(
