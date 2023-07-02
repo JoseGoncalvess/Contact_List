@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:developer';
-
 import 'package:contact_list/controllers/homecontroller.dart';
 import 'package:contact_list/controllers/data/share_prefs.dart';
 import 'package:contact_list/models/contact_model.dart';

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:contact_list/controllers/new_contact_controller.dart';
 import 'package:contact_list/controllers/data/share_prefs.dart';
 import 'package:contact_list/screens/home%20Page/home_page.dart';
@@ -96,10 +98,24 @@ class _EditingContactState extends State<EditingContact> {
                           child: widget.image!.path.length == 2
                               ? CircleAvatar(
                                   radius: 60,
-                                  child: Text(
-                                    widget.image!.path,
-                                    style: TextStyle(fontSize: height * 0.07),
-                                  ))
+                                  child: _newconroller.value == null
+                                      ? Text(
+                                          widget.image!.path,
+                                          style: TextStyle(
+                                              fontSize: height * 0.07),
+                                        )
+                                      : Container(
+                                          width: width * 0.5,
+                                          height: height * 0.3,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(70),
+                                              image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: FileImage(File(
+                                                      _newconroller
+                                                          .value!.path)))),
+                                        ))
                               : CustomProfile(
                                   arquivo: _newconroller.value == null
                                       ? widget.image!
