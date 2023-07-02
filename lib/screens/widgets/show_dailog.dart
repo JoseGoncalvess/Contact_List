@@ -28,6 +28,7 @@ class ShowDailog {
         actions: [
           ElevatedButton(
               onPressed: () {
+                // ignore: unrelated_type_equality_checks
                 Navigator.pushReplacement(context, page) == false;
               },
               child: const Row(

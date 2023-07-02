@@ -1,4 +1,4 @@
-import 'package:contact_list/controllers/share_prefs.dart';
+import 'package:contact_list/controllers/data/share_prefs.dart';
 import 'package:contact_list/models/contact_model.dart';
 
 import 'homecontroller.dart';

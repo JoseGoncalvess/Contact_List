@@ -1,9 +1,9 @@
-import 'package:contact_list/controllers/share_prefs.dart';
+import 'package:contact_list/controllers/data/share_prefs.dart';
 import 'package:contact_list/models/contact_model.dart';
 
 import 'package:flutter/material.dart';
 
-class Homecontroller extends ValueNotifier {
+class Homecontroller extends ValueNotifier<List<ContactModel>> {
   Homecontroller() : super([]);
   ValueNotifier<bool> drop = ValueNotifier<bool>(false);
   ValueNotifier<bool> listselect = ValueNotifier<bool>(false);

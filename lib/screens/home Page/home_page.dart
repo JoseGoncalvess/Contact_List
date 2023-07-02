@@ -2,15 +2,17 @@ import 'dart:io';
 import 'dart:developer';
 
 import 'package:contact_list/controllers/homecontroller.dart';
-import 'package:contact_list/controllers/share_prefs.dart';
+import 'package:contact_list/controllers/data/share_prefs.dart';
 import 'package:contact_list/models/contact_model.dart';
 import 'package:contact_list/screens/editing%20contact/editing_contact.dart';
+import 'package:contact_list/screens/widgets/favor_showdailog.dart';
 import 'package:contact_list/screens/widgets/show_dailog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../new_contatact/new_contact.dart';
 import '../widgets/app_custom_bar.dart';
 import '../widgets/list_contact.dart';
+import '../widgets/list_isempt.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -54,127 +56,91 @@ class _HomePageState extends State<HomePage> {
                   child: ValueListenableBuilder(
                     valueListenable: _controller,
                     builder: (context, value, child) {
-                      return ListView.builder(
-                          itemCount: value.length,
-                          itemBuilder: (context, index) {
-                            var data = value;
-                            return Dismissible(
-                              key: Key(index.toString()),
-                              direction: DismissDirection.endToStart,
-                              confirmDismiss: (direction) async {
-                                return await ShowDailog().showdailogg(
-                                    context: context,
-                                    contact: data[index].name,
-                                    page: MaterialPageRoute(
-                                      builder: (context) => EditingContact(
-                                          index: index,
-                                          image: XFile(data[index].image),
-                                          name: data[index].name,
-                                          number: data[index].number,
-                                          email: data[index].email),
-                                    ));
-                              },
-                              background: Container(
-                                width: 100,
-                                height: 100,
-                                alignment: Alignment.centerRight,
-                                color: Colors.green[900],
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.perm_contact_calendar_rounded,
-                                    color: Colors.white,
-                                    size: width * 0.1,
-                                  ),
-                                ),
-                              ),
-                              onDismissed: (direction) =>
-                                  _controller.deletcontatc(
-                                key: _controller.listselect.value == true
-                                    ? keyFavorList
-                                    : keylist,
-                                index: index,
-                              ),
-                              child: ListTile(
-                                onLongPress: () => {
-                                  _controller.listselect.value
-                                      ? null
-                                      : showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                            backgroundColor: Colors.green,
-                                            title: const Icon(
-                                              Icons.favorite,
-                                              color: Colors.white,
-                                            ),
-                                            content: Text(
-                                              textAlign: TextAlign.center,
-                                              'O contato ${data[index].name} foi adiconando aos favoritos!',
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            actionsAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            actions: [
-                                              ElevatedButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child:
-                                                      const Text("Cancelar")),
-                                              ElevatedButton(
-                                                  onPressed: () {
-                                                    _controller.savecontact(
-                                                        contact: ContactModel(
-                                                            image: data[index]
-                                                                .image,
-                                                            name: data[index]
-                                                                .name,
-                                                            number: data[index]
-                                                                .number,
-                                                            email: data[index]
-                                                                .email),
-                                                        key: keyFavorList);
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child:
-                                                      const Text("Favoritar"))
-                                            ],
-                                          ),
-                                        )
-                                },
-                                leading: data[index].image.length == 2
-                                    ? CircleAvatar(
-                                        radius: 30,
-                                        child: Text(data[index].image))
-                                    : CircleAvatar(
-                                        radius: 30,
-                                        backgroundImage: FileImage(
-                                          File(data[index].image),
-                                          scale: 2,
-                                        ),
+                      List<ContactModel> data = value;
+                      return data.isEmpty
+                          ? const ListIsempt()
+                          : ListView.builder(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                return Dismissible(
+                                  key: Key(index.toString()),
+                                  direction: DismissDirection.endToStart,
+                                  confirmDismiss: (direction) async {
+                                    return await ShowDailog().showdailogg(
+                                        context: context,
+                                        contact: data[index].name,
+                                        page: MaterialPageRoute(
+                                          builder: (context) => EditingContact(
+                                              index: index,
+                                              image: XFile(data[index].image),
+                                              name: data[index].name,
+                                              number: data[index].number,
+                                              email: data[index].email),
+                                        ));
+                                  },
+                                  background: Container(
+                                    width: 100,
+                                    height: 100,
+                                    alignment: Alignment.centerRight,
+                                    color: Colors.green[900],
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.perm_contact_calendar_rounded,
+                                        color: Colors.white,
+                                        size: width * 0.1,
                                       ),
-                                title: Text(
-                                  data[index].name,
-                                  style: TextStyle(
-                                      color: Colors.green[800],
-                                      fontSize: height * 0.022,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                subtitle: Text(data[index].number,
-                                    style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: height * 0.022,
-                                        fontWeight: FontWeight.w400)),
-                                visualDensity:
-                                    VisualDensity.adaptivePlatformDensity,
-                                dense: true,
-                                focusColor: Colors.greenAccent,
-                                trailing: const Icon(Icons.call),
-                              ),
-                            );
-                          });
+                                    ),
+                                  ),
+                                  onDismissed: (direction) =>
+                                      _controller.deletcontatc(
+                                    key: _controller.listselect.value == true
+                                        ? keyFavorList
+                                        : keylist,
+                                    index: index,
+                                  ),
+                                  child: ListTile(
+                                    onLongPress: () => {
+                                      _controller.listselect.value
+                                          ? null
+                                          : FavorShowdailog().favorShowdailog(
+                                              context: context,
+                                              name: data[index].name,
+                                              email: data[index].email,
+                                              image: data[index].image,
+                                              number: data[index].number)
+                                    },
+                                    leading: data[index].image.length == 2
+                                        ? CircleAvatar(
+                                            radius: 30,
+                                            child: Text(data[index].image))
+                                        : CircleAvatar(
+                                            radius: 30,
+                                            backgroundImage: FileImage(
+                                              File(data[index].image),
+                                              scale: 2,
+                                            ),
+                                          ),
+                                    title: Text(
+                                      data[index].name,
+                                      style: TextStyle(
+                                          color: Colors.green[800],
+                                          fontSize: height * 0.022,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    subtitle: Text(data[index].number,
+                                        style: TextStyle(
+                                            color: Colors.grey[400],
+                                            fontSize: height * 0.022,
+                                            fontWeight: FontWeight.w400)),
+                                    visualDensity:
+                                        VisualDensity.adaptivePlatformDensity,
+                                    dense: true,
+                                    focusColor: Colors.greenAccent,
+                                    trailing: const Icon(Icons.call),
+                                  ),
+                                );
+                              });
                     },
                   ),
                 )
@@ -188,14 +154,11 @@ class _HomePageState extends State<HomePage> {
                     _controller.getcontacts(key: keyFavorList);
                     _controller.drop.value = !_controller.drop.value;
                     _controller.listselect.value = true;
-
-                    log(_controller.listselect.value.toString());
                   },
                   geralPress: () {
                     _controller.getcontacts(key: keylist);
                     _controller.drop.value = !_controller.drop.value;
                     _controller.listselect.value = false;
-                    log(_controller.listselect.value.toString());
                   },
                   activi: _controller.drop.value,
                 ))

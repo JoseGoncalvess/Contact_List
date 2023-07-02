@@ -1,7 +1,7 @@
 import 'package:contact_list/controllers/data/validator_mixin.dart';
 import 'package:contact_list/controllers/homecontroller.dart';
 import 'package:contact_list/controllers/new_contact_controller.dart';
-import 'package:contact_list/controllers/share_prefs.dart';
+import 'package:contact_list/controllers/data/share_prefs.dart';
 import 'package:contact_list/screens/home%20Page/home_page.dart';
 import 'package:flutter/material.dart';
 import '../../models/contact_model.dart';
@@ -19,7 +19,7 @@ class NewContact extends StatefulWidget {
 class _NewContactState extends State<NewContact> with ValidatorMixin {
   final _controller = Homecontroller();
   final _newconroller = NewContactController();
-  final GlobalKey<FormState> _KeyState = GlobalKey<FormState>();
+  final GlobalKey<FormState> _keyState = GlobalKey<FormState>();
 
   ValueNotifier<String> title = ValueNotifier<String>('Novo Contato');
 
@@ -106,8 +106,8 @@ class _NewContactState extends State<NewContact> with ValidatorMixin {
                               topLeft: Radius.circular(50),
                               topRight: Radius.circular(50))),
                       child: Form(
-                        onChanged: () => _KeyState.currentState!.validate(),
-                        key: _KeyState,
+                        onChanged: () => _keyState.currentState!.validate(),
+                        key: _keyState,
                         child: Column(
                           children: [
                             SizedBox(
@@ -231,7 +231,7 @@ class _NewContactState extends State<NewContact> with ValidatorMixin {
               child: FloatingActionButton(
                 backgroundColor: Colors.green,
                 onPressed: () {
-                  if (_KeyState.currentState!.validate()) {
+                  if (_keyState.currentState!.validate()) {
                     _controller.savecontact(
                       key: keylist,
                       contact: ContactModel(

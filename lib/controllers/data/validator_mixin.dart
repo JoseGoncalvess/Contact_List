@@ -42,6 +42,7 @@ mixin ValidatorMixin {
   }
 
   isnumbervlidate({required String? value, required String? msg}) {
+    // ignore: unnecessary_string_escapes
     if (RegExp('^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}')
         .hasMatch(value!)) {
       return null;
