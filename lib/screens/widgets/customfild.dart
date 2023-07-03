@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../controllers/data/validator_mixin.dart';
+import '../../controller/data/validator_mixin.dart';
 
 class Customfild extends StatefulWidget {
   final TextEditingController controller;

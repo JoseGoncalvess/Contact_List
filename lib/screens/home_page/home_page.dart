@@ -1,15 +1,15 @@
 import 'dart:io';
-import 'package:contact_list/controllers/homecontroller.dart';
-import 'package:contact_list/controllers/data/share_prefs.dart';
+import 'package:contact_list/screens/home_page/home_page_controller.dart';
 import 'package:contact_list/models/contact_model.dart';
-import 'package:contact_list/screens/editing%20contact/editing_contact.dart';
-import 'package:contact_list/screens/widgets/favor_showdailog.dart';
+import 'package:contact_list/screens/edit_contact/editing_contact.dart';
+import 'package:contact_list/screens/home_page/widgets/favor_showdailog.dart';
 import 'package:contact_list/screens/widgets/show_dailog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../controller/data/share_prefs.dart';
 import '../new_contatact/new_contact.dart';
-import '../widgets/app_custom_bar.dart';
-import '../widgets/list_contact.dart';
+import 'widgets/app_custom_bar.dart';
+import 'widgets/list_contact.dart';
 import '../widgets/list_isempt.dart';
 
 class HomePage extends StatefulWidget {

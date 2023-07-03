@@ -1,4 +1,4 @@
-import 'package:contact_list/screens/home%20Page/home_page.dart';
+import 'package:contact_list/screens/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {

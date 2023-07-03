@@ -1,11 +1,10 @@
 import 'dart:io';
-
-import 'package:contact_list/controllers/new_contact_controller.dart';
-import 'package:contact_list/controllers/data/share_prefs.dart';
-import 'package:contact_list/screens/home%20Page/home_page.dart';
+import 'package:contact_list/screens/new_contatact/new_contact_controller.dart';
+import 'package:contact_list/screens/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../controllers/editing_contact_controller.dart';
+import '../../controller/data/share_prefs.dart';
+import 'editing_contact_controller.dart';
 import '../../models/contact_model.dart';
 import '../widgets/buttom_widget.dart';
 import '../widgets/custom_profile.dart';

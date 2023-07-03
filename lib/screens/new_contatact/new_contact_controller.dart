@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'data/user_perfil.dart';
+import '../../controller/data/user_perfil.dart';
 
 class NewContactController extends ValueNotifier<XFile?> {
   NewContactController() : super(null);

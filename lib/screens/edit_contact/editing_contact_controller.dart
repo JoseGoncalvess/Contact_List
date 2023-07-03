@@ -1,7 +1,7 @@
-import 'package:contact_list/controllers/data/share_prefs.dart';
 import 'package:contact_list/models/contact_model.dart';
 
-import 'homecontroller.dart';
+import '../../controller/data/share_prefs.dart';
+import '../home_page/home_page_controller.dart';
 
 class EditingContactController {
   final SharePrefs prefs = SharePrefs();

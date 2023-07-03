@@ -1,8 +1,8 @@
-import 'package:contact_list/controllers/data/share_prefs.dart';
 import 'package:flutter/material.dart';
 
-import '../../controllers/homecontroller.dart';
-import '../../models/contact_model.dart';
+import '../../../controller/data/share_prefs.dart';
+import '../home_page_controller.dart';
+import '../../../models/contact_model.dart';
 
 class FavorShowdailog {
   Future favorShowdailog({
