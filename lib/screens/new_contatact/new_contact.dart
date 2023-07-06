@@ -35,13 +35,6 @@ class _NewContactState extends State<NewContact> with ValidatorMixin {
     });
   }
 
-  String? teste({required String value}) {
-    if (value.isEmpty) {
-      return 'verifique o nome';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.sizeOf(context).width;

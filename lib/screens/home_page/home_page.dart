@@ -1,16 +1,16 @@
-import 'dart:io';
 import 'package:contact_list/screens/home_page/home_page_controller.dart';
 import 'package:contact_list/models/contact_model.dart';
 import 'package:contact_list/screens/edit_contact/editing_contact.dart';
 import 'package:contact_list/screens/home_page/widgets/favor_showdailog.dart';
-import 'package:contact_list/screens/widgets/show_dailog.dart';
+import 'package:contact_list/screens/home_page/widgets/show_dailog.dart';
+import 'package:contact_list/screens/new_contatact/new_contact_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../controller/data/share_prefs.dart';
 import '../new_contatact/new_contact.dart';
 import 'widgets/app_custom_bar.dart';
 import 'widgets/list_contact.dart';
-import '../widgets/list_isempt.dart';
+import 'widgets/list_isempt.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,6 +21,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _controller = Homecontroller();
+  final _newController = NewContactController();
 
   @override
   void initState() {
@@ -70,7 +71,8 @@ class _HomePageState extends State<HomePage> {
                                         page: MaterialPageRoute(
                                           builder: (context) => EditingContact(
                                               index: index,
-                                              image: XFile(data[index].image),
+                                              image: XFile(
+                                                  data[index].image.toString()),
                                               name: data[index].name,
                                               number: data[index].number,
                                               email: data[index].email),
@@ -111,13 +113,14 @@ class _HomePageState extends State<HomePage> {
                                     leading: data[index].image.length == 2
                                         ? CircleAvatar(
                                             radius: 30,
-                                            child: Text(data[index].image))
+                                            child: Text(
+                                                data[index].image.toString()))
                                         : CircleAvatar(
                                             radius: 30,
-                                            backgroundImage: FileImage(
-                                              File(data[index].image),
-                                              scale: 2,
-                                            ),
+                                            backgroundImage: MemoryImage(
+                                                _newController
+                                                    .convert64ToInmage(
+                                                        data[index].image)),
                                           ),
                                     title: Text(
                                       data[index].name,
