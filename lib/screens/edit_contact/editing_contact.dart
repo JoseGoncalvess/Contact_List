@@ -30,7 +30,7 @@ class _EditingContactState extends State<EditingContact> {
   final _newconroller = NewContactController();
   final _editingController = EditingContactController();
 
-  ValueNotifier<String> title = ValueNotifier<String>('');
+  late ValueNotifier<String> title = ValueNotifier<String>('Contato');
   late TextEditingController _nameController;
   late TextEditingController _numberController;
   late TextEditingController _emailController;
