@@ -1,8 +1,6 @@
-import 'dart:io';
 import 'package:contact_list/screens/new_contatact/new_contact_controller.dart';
 import 'package:contact_list/screens/home_page/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import '../../controller/data/share_prefs.dart';
 import 'editing_contact_controller.dart';
 import '../../models/contact_model.dart';
@@ -14,7 +12,7 @@ class EditingContact extends StatefulWidget {
   final String name;
   final String number;
   final String email;
-  final XFile? image;
+  final String? image;
   final int index;
   const EditingContact(
       {super.key,
@@ -94,12 +92,12 @@ class _EditingContactState extends State<EditingContact> {
                                 _newconroller.onfile.value =
                                     !_newconroller.onfile.value
                               },
-                          child: widget.image!.path.length == 2
+                          child: widget.image!.length == 2
                               ? CircleAvatar(
                                   radius: 60,
                                   child: _newconroller.value == null
                                       ? Text(
-                                          widget.image!.path,
+                                          widget.image!,
                                           style: TextStyle(
                                               fontSize: height * 0.07),
                                         )
@@ -110,15 +108,16 @@ class _EditingContactState extends State<EditingContact> {
                                               borderRadius:
                                                   BorderRadius.circular(70),
                                               image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: FileImage(File(
-                                                      _newconroller
-                                                          .value!.path)))),
+                                                fit: BoxFit.cover,
+                                                image: MemoryImage(_newconroller
+                                                    .convert64ToInmage(
+                                                        widget.image!)),
+                                              )),
                                         ))
                               : CustomProfile(
-                                  arquivo: _newconroller.value == null
-                                      ? widget.image!
-                                      : _newconroller.value!,
+                                  arquivo: _newconroller.value,
+                                  image: _newconroller
+                                      .convert64ToInmage(widget.image!),
                                 )),
                     ),
                     Container(
@@ -231,7 +230,7 @@ class _EditingContactState extends State<EditingContact> {
                       email: _emailController.text,
                       number: _numberController.text,
                       image: _newconroller.getprofile(
-                          aquivo: _newconroller.value ?? widget.image,
+                          aquivo: _newconroller.value,
                           nameController: _nameController),
                     ),
                   );

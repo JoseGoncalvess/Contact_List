@@ -1,7 +1,4 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-
 import '../../../controller/data/share_prefs.dart';
 import '../home_page_controller.dart';
 import '../../../models/contact_model.dart';

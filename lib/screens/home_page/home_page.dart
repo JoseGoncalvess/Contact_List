@@ -5,7 +5,6 @@ import 'package:contact_list/screens/home_page/widgets/favor_showdailog.dart';
 import 'package:contact_list/screens/home_page/widgets/show_dailog.dart';
 import 'package:contact_list/screens/new_contatact/new_contact_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import '../../controller/data/share_prefs.dart';
 import '../new_contatact/new_contact.dart';
 import 'widgets/app_custom_bar.dart';
@@ -71,8 +70,7 @@ class _HomePageState extends State<HomePage> {
                                         page: MaterialPageRoute(
                                           builder: (context) => EditingContact(
                                               index: index,
-                                              image: XFile(
-                                                  data[index].image.toString()),
+                                              image: data[index].image,
                                               name: data[index].name,
                                               number: data[index].number,
                                               email: data[index].email),

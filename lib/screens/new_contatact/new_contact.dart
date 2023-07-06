@@ -87,6 +87,7 @@ class _NewContactState extends State<NewContact> with ValidatorMixin {
                                       const AssetImage("assets/user.png"),
                                 )
                               : CustomProfile(
+                                  image: null,
                                   arquivo: _newconroller.value!,
                                 )),
                     ),
