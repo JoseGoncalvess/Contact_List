@@ -226,13 +226,13 @@ class _EditingContactState extends State<EditingContact> {
                     key: keylist,
                     index: widget.index,
                     contact: ContactModel(
-                      name: _nameController.text,
-                      email: _emailController.text,
-                      number: _numberController.text,
-                      image: _newconroller.getprofile(
-                          aquivo: _newconroller.value,
-                          nameController: _nameController),
-                    ),
+                        name: _nameController.text,
+                        email: _emailController.text,
+                        number: _numberController.text,
+                        image: _newconroller.value == null
+                            ? widget.image!
+                            : _newconroller.converImaB64(
+                                fileImage: _newconroller.value!)),
                   );
 
                   Navigator.pushReplacement(

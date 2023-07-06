@@ -137,7 +137,11 @@ class _NewContactState extends State<NewContact> with ValidatorMixin {
                                 () => isnumbervlidate(
                                     msg:
                                         'Digite um numero valido(xx) x - xxxx-xxxx',
-                                    value: value)
+                                    value: value),
+                                () => isemaxLenth(
+                                    value: value,
+                                    msg: 'Numero Muito grande',
+                                    lenth: 11)
                               ]),
                               prefixicons: Icons.phone,
                               controller: numberController,
@@ -226,20 +230,27 @@ class _NewContactState extends State<NewContact> with ValidatorMixin {
                 backgroundColor: Colors.green,
                 onPressed: () {
                   if (_keyState.currentState!.validate()) {
-                    _controller.savecontact(
-                      key: keylist,
-                      contact: ContactModel(
-                          name: nameController.text,
-                          email: emailController.text,
-                          number: numberController.text,
-                          image: _newconroller.getprofile(
-                              aquivo: _newconroller.value,
-                              nameController: nameController)),
-                    );
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()));
+                    if (_newconroller.value != null) {
+                      _controller.savecontact(
+                        key: keylist,
+                        contact: ContactModel(
+                            name: nameController.text,
+                            email: emailController.text,
+                            number: numberController.text,
+                            image: _newconroller.getprofile(
+                                aquivo: _newconroller.value,
+                                nameController: nameController)),
+                      );
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Ops, Falta Escolher a foto de Perfil!'),
+                        action: SnackBarAction(label: 'OK', onPressed: () {}),
+                      ));
+                    }
                   }
                 },
                 child: Icon(

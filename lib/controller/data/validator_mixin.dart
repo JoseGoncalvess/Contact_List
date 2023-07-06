@@ -19,6 +19,12 @@ mixin ValidatorMixin {
     return null;
   }
 
+  String? isemaxLenth(
+      {required String? value, required String? msg, required int lenth}) {
+    if (value!.length > lenth) return msg ?? 'Valor precisa ser Menor';
+    return null;
+  }
+
   String? isContainNuber({required String? value, required String? msg}) {
     final number = value!.split('');
 

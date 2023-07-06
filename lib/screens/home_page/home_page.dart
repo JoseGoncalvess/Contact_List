@@ -90,13 +90,17 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ),
                                   ),
-                                  onDismissed: (direction) =>
-                                      _controller.deletcontatc(
-                                    key: _controller.listselect.value == true
-                                        ? keyFavorList
-                                        : keylist,
-                                    index: index,
-                                  ),
+                                  onDismissed: (direction) => {
+                                    _controller.deletcontatc(
+                                      key: _controller.listselect.value == true
+                                          ? keyFavorList
+                                          : keylist,
+                                      index: index,
+                                    ),
+                                    _controller.getcontacts(
+                                      key: keylist,
+                                    )
+                                  },
                                   child: ListTile(
                                     onLongPress: () => {
                                       _controller.listselect.value

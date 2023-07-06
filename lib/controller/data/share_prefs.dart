@@ -57,7 +57,7 @@ class SharePrefs {
     loadList(key: key).then((value) => {
           contatosString = value,
           contatosString.removeAt(index),
-          contatosString.insert(index, contact.toJson()),
+          contatosString.add(contact.toJson()),
           savelist(key: key, listString: contatosString)
         });
     loadList(key: keyFavorList).then((value) => {
